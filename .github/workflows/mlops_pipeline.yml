@@ -31,6 +31,9 @@ jobs:
         dvc remote modify origin user "$DAGSHUB_USER"
         dvc remote modify origin password "$DAGSHUB_TOKEN"
 
+    - name: Pull DVC data
+      run: dvc pull
+
     - name: Run pipeline
       run: dvc repro
 
