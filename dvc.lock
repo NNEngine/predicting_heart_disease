@@ -1,0 +1,74 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/data/make_dataset.py data/raw data/processed
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: d0163da5b32b684588204ddab06c4e74.dir
+      size: 31664227
+      nfiles: 2
+    - path: src/data/make_dataset.py
+      hash: md5
+      md5: d3c035bc53a1b3c51a245c1a9128f5f2
+      size: 1347
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 58d2af824818645e660d02eba76a9803.dir
+      size: 31664227
+      nfiles: 1
+  features:
+    cmd: python src/features/build_features.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 58d2af824818645e660d02eba76a9803.dir
+      size: 31664227
+      nfiles: 1
+    - path: src/features/build_features.py
+      hash: md5
+      md5: 4cc8aaf39bb974d534cf9bf66b4fa0fc
+      size: 331
+    outs:
+    - path: data/features
+      hash: md5
+      md5: 58d2af824818645e660d02eba76a9803.dir
+      size: 31664227
+      nfiles: 1
+  train:
+    cmd: python src/models/train_model.py
+    deps:
+    - path: data/features
+      hash: md5
+      md5: 58d2af824818645e660d02eba76a9803.dir
+      size: 31664227
+      nfiles: 1
+    - path: src/models/train_model.py
+      hash: md5
+      md5: 38c2f0a6e6c9e6799f22d8e19cdb2ab4
+      size: 3135
+    params:
+      params.yaml:
+        train.max_iter: 50
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 5a4dbdc3fd3f6164eabb5e5b1c5c60d3
+      size: 185
+    - path: models
+      hash: md5
+      md5: 2662fbccf58fcaf6772f262836a5210c.dir
+      size: 2513
+      nfiles: 1
+  evaluate:
+    cmd: python src/models/evaluate_model.py
+    deps:
+    - path: metrics.json
+      hash: md5
+      md5: 5a4dbdc3fd3f6164eabb5e5b1c5c60d3
+      size: 185
+    - path: src/models/evaluate_model.py
+      hash: md5
+      md5: db85f0ede5c959ca9ae94ada24e7cb91
+      size: 301
