@@ -28,8 +28,8 @@ stages:
       nfiles: 1
     - path: src/features/build_features.py
       hash: md5
-      md5: 21e86571f66433d30c45e011f5e88a78
-      size: 317
+      md5: 4cc8aaf39bb974d534cf9bf66b4fa0fc
+      size: 331
     outs:
     - path: data/features
       hash: md5
@@ -46,11 +46,29 @@ stages:
       nfiles: 1
     - path: src/models/train_model.py
       hash: md5
-      md5: f658bf4071edccbd5fd8c6eae05a81f0
-      size: 767
+      md5: 38c2f0a6e6c9e6799f22d8e19cdb2ab4
+      size: 3135
+    params:
+      params.yaml:
+        train.max_iter: 50
     outs:
+    - path: metrics.json
+      hash: md5
+      md5: 5a4dbdc3fd3f6164eabb5e5b1c5c60d3
+      size: 185
     - path: models
       hash: md5
-      md5: 4e8b4df001565c65318678001e095540.dir
-      size: 1663
+      md5: 2662fbccf58fcaf6772f262836a5210c.dir
+      size: 2513
       nfiles: 1
+  evaluate:
+    cmd: python src/models/evaluate_model.py
+    deps:
+    - path: metrics.json
+      hash: md5
+      md5: 5a4dbdc3fd3f6164eabb5e5b1c5c60d3
+      size: 185
+    - path: src/models/evaluate_model.py
+      hash: md5
+      md5: db85f0ede5c959ca9ae94ada24e7cb91
+      size: 301

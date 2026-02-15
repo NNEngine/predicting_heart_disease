@@ -5,15 +5,29 @@ from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 
 
+import shutil
+from pathlib import Path
+
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
 @click.argument('output_filepath', type=click.Path())
 def main(input_filepath, output_filepath):
-    """ Runs data processing scripts to turn raw data from (../raw) into
-        cleaned data ready to be analyzed (saved in ../processed).
-    """
+    """Process raw data into processed data."""
     logger = logging.getLogger(__name__)
     logger.info('making final data set from raw data')
+
+    input_path = Path(input_filepath)
+    output_path = Path(output_filepath)
+
+    # create processed directory
+    output_path.mkdir(parents=True, exist_ok=True)
+
+    # copy all csv files (baseline)
+    for file in input_path.glob("*.csv"):
+        shutil.copy(file, output_path / file.name)
+
+    logger.info("Processed data saved to %s", output_path)
+
 
 
 if __name__ == '__main__':
