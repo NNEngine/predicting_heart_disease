@@ -1,8 +1,6 @@
 predicting_heart_disease
 ==============================
 
-Kaggle competition project S6E2
-
 Project Organization
 ------------
 
