@@ -1,0 +1,56 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/data/make_dataset.py data/raw data/processed
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: d0163da5b32b684588204ddab06c4e74.dir
+      size: 31664227
+      nfiles: 2
+    - path: src/data/make_dataset.py
+      hash: md5
+      md5: d3c035bc53a1b3c51a245c1a9128f5f2
+      size: 1347
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 58d2af824818645e660d02eba76a9803.dir
+      size: 31664227
+      nfiles: 1
+  features:
+    cmd: python src/features/build_features.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 58d2af824818645e660d02eba76a9803.dir
+      size: 31664227
+      nfiles: 1
+    - path: src/features/build_features.py
+      hash: md5
+      md5: 21e86571f66433d30c45e011f5e88a78
+      size: 317
+    outs:
+    - path: data/features
+      hash: md5
+      md5: 58d2af824818645e660d02eba76a9803.dir
+      size: 31664227
+      nfiles: 1
+  train:
+    cmd: python src/models/train_model.py
+    deps:
+    - path: data/features
+      hash: md5
+      md5: 58d2af824818645e660d02eba76a9803.dir
+      size: 31664227
+      nfiles: 1
+    - path: src/models/train_model.py
+      hash: md5
+      md5: f658bf4071edccbd5fd8c6eae05a81f0
+      size: 767
+    outs:
+    - path: models
+      hash: md5
+      md5: 4e8b4df001565c65318678001e095540.dir
+      size: 1663
+      nfiles: 1
